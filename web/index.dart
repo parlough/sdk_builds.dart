@@ -8,9 +8,7 @@ import "package:angular2/src/reflection/reflection_capabilities.dart"
 const _greetings = const ['hello', 'howdy', 'cherrio'];
 
 @Component(selector: "hello-app")
-@View(
-    template: '''<div class="greeting">{{greeting}} <span red>world</span>!</div>
-<button class="changeButton" (click)="changeGreeting()">change greeting</button>''')
+@View(templateUrl: 'template.html')
 class HelloComponent {
   String greeting = _greetings.first;
 
