@@ -12,3 +12,19 @@ dependencies:
 dev_dependencies:
   angular2: ^2.0.0-alpha.26
   test: '^0.12.0'
+transformers:
+- angular2:
+    entry_points:
+        - web/index.dart
+    reflection_entry_points:
+        - web/index.dart
+- $dart2js:
+    minify: false
+    commandLineOptions:
+    - --dump-info
+    - --show-package-warnings
+    - --trust-type-annotations
+    - --trust-primitives
+dependency_overrides:
+  angular2:
+    path: /Users/kevmoo/source/github/angular_dart_build/angular2
