@@ -12,3 +12,13 @@ class Store {
       new DartDownloads(client: new BrowserClient());
 }
 
+class LoudStore extends Store {
+  LoudStore() {
+    print("creating store!");
+  }
+
+  DartDownloads get downloadClient {
+    print("getting client!");
+    return super.downloadClient;
+  }
+}

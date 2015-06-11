@@ -48,5 +48,8 @@ class HelloComponent {
 
 main() {
   reflector.reflectionCapabilities = new ReflectionCapabilities();
+
+  reflector..registerType(Store, {'factory': () => new LoudStore()});
+
   bootstrap(HelloComponent);
 }
