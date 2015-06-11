@@ -7,15 +7,16 @@ import "package:angular2/src/reflection/reflection.dart" show reflector;
 import "package:angular2/src/reflection/reflection_capabilities.dart"
     show ReflectionCapabilities;
 
-import 'package:http/browser_client.dart';
-import 'package:sdk_builds/sdk_builds.dart';
+import 'services.dart';
 
-@Component(selector: "hello-app")
+@Component(selector: "hello-app", appInjector: const [Store])
 @View(templateUrl: 'template.html', directives: const [NgFor])
 class HelloComponent {
-  final _dd = new DartDownloads(client: new BrowserClient());
+  final _dd;
   bool working = false;
   List<String> versionInfo = <String>[];
+
+  HelloComponent(Store store) : _dd = store.downloadClient;
 
   void updateLatestVersion() {
     _updateVersions();
@@ -37,7 +38,7 @@ class HelloComponent {
       working = false;
     }
   }
-  
+
   Future<String> _latest(String channel) async {
     var hash = await _dd.getVersionMap(channel, 'latest');
 
