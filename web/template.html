@@ -1,0 +1,29 @@
+<form [ng-form-model]="form">
+  <label for="version-select">Version:</label>
+  <select [disabled]="loading" ng-control="selectedVersion" id="version-select">
+
+    <option *ng-for="#release of releases" [value]='release'>
+      {{ release }}
+    </option>
+  </select>
+
+  <label for="os-select">OS:</label>
+  <select id="os-select" ng-control="selectedOs" [disabled]="loading">
+    <option *ng-for="#os of operatingSystems" [value]='os'>
+      {{ os }}
+    </option>
+  </select>
+
+  <table class="downloads">
+    <tr>
+      <th>Version</th>
+      <th>OS</th>
+      <th>Flavor</th>
+      <th>Downloads</th>
+    </tr>
+    <tbody>
+
+    </tbody>
+  </table>
+
+</form>
