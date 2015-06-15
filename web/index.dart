@@ -13,16 +13,14 @@ import 'package:http/browser_client.dart';
 import 'package:sdk_builds/sdk_builds.dart' as sdk;
 
 @Component(selector: "hello-app", lifecycle: const [onInit])
-@View(templateUrl: 'template.html', directives: const [formDirectives, NgFor])
+@View(templateUrl: 'template.html', directives: const [NgFor])
 class ArchiveComponent {
   final _dd = new sdk.DartDownloads(client: new BrowserClient());
 
-  String channel = 'dev';
+  final String channel = 'dev';
 
-  String osCurrent = 'Mac';
-
-  final ControlGroup form = new ControlGroup(
-      {'selectedOs': new Control(''), 'selectedVersion': new Control('')});
+  String selectedOs = '';
+  String selectedRelease = '';
 
   bool loading = true;
 
@@ -43,15 +41,13 @@ class ArchiveComponent {
 
     // work-around for https://github.com/angular/angular/issues/2520
     // not awaiting this – want it run async
-    new Future.delayed(const Duration(seconds: 0)).then((_) {
-      (this.form.find('selectedOs') as Control).updateValue('Mac');
-      (this.form.find('selectedVersion') as Control)
-          .updateValue(items.last.toString());
+    new Timer(const Duration(seconds: 0), () {
+      this.selectedRelease = items.last.toString();
+      this.selectedOs = 'Mac';
 
       loading = false;
     });
   }
-
 }
 
 main() {
