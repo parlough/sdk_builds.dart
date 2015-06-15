@@ -1,4 +1,4 @@
-library sdk_builds;
+library sdk_builds.test;
 
 import 'package:pub_semver/pub_semver.dart';
 import 'package:sdk_builds/sdk_builds.dart';

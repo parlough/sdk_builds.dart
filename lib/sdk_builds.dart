@@ -12,23 +12,6 @@ import 'package:quiver/async.dart' as qa;
 const _dartChannel = 'dart-archive';
 const _flavor = 'release';
 
-final List<String> platforms = new List.unmodifiable(_platforms.keys);
-
-const Map<String, Map> _platforms = const <String, Map>{
-  'Mac': const {
-    '32-bit': const ['Dart SDK', 'Dartium', 'Dart Editor'],
-    '64-bit': const ['Dart SDK', 'Dart Editor']
-  },
-  'Linux': const {
-    '32-bit': const ['Dart SDK', 'Dartium', 'Dart Editor'],
-    '64-bit': const ['Dart SDK', 'Dartium', 'Dart Editor']
-  },
-  'Windows': const {
-    '32-bit': const ['Dart SDK', 'Dartium', 'Dart Editor'],
-    '64-bit': const ['Dart SDK', 'Dart Editor']
-  },
-};
-
 String _revisionPath(String channel, String revision,
     [List<String> extra = const []]) => p.joinAll(
         [['channels', channel, _flavor, revision], extra].expand(((e) => e)));
@@ -136,13 +119,6 @@ class DartDownloads {
     return Uri.parse(obj.mediaLink);
   }
 
-  Future<storage.Media> _getFile(
-      String channel, String revision, String path) async {
-    return await _api.objects.get(
-        _dartChannel, _revisionPath(channel, revision, [path]),
-        downloadOptions: storage.DownloadOptions.FullMedia);
-  }
-
   Future<String> getHash256(
       String channel, String revision, String download) async {
     var media = await _api.objects.get(
@@ -208,6 +184,13 @@ class DartDownloads {
   }
 
   void close() => _client.close();
+
+  Future<storage.Media> _getFile(
+      String channel, String revision, String path) async {
+    return await _api.objects.get(
+        _dartChannel, _revisionPath(channel, revision, [path]),
+        downloadOptions: storage.DownloadOptions.FullMedia);
+  }
 }
 
 final _jsonAsciiDecoder = JSON.fuse(ASCII).decoder;
