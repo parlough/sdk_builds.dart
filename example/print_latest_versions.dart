@@ -19,7 +19,7 @@ main() async {
 }
 
 Future latest(String channel) async {
-  var hash = await _dd.getVersionMap(channel, 'latest');
+  var info = await _dd.getVersion(channel, 'latest');
 
-  print('$channel\t${hash['version']}');
+  print('$channel\t${info.version}');
 }

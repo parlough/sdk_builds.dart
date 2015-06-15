@@ -1,5 +1,6 @@
 library sdk_builds;
 
+import 'package:pub_semver/pub_semver.dart';
 import 'package:sdk_builds/sdk_builds.dart';
 import 'package:test/test.dart';
 
@@ -23,7 +24,7 @@ main() async {
 
     var version = await _dd.getVersion(channel, revision);
 
-    expect(version, '1.1.1');
+    expect(version.version, new Version.parse('1.1.1'));
   });
 
   test('get version paths', () async {
@@ -40,13 +41,20 @@ main() async {
     var channel = 'stable';
     var revision = '44672';
 
-    var content = await _dd.getVersionMap(channel, revision);
+    var content = await _dd.getVersion(channel, revision) as SvnVersionInfo;
 
-    expect(content, {
-      'revision': '44672',
-      'version': '1.9.1',
-      'date': '201503250347'
-    });
+    expect(content.revision, 44672);
+    expect(content.version, new Version.parse('1.9.1'));
+    expect(content.date, new DateTime.utc(2015, 3, 25, 3, 47));
+  });
+
+  test('getVersionMap - old revision', () async {
+    // dev/release/30039 - 0.8.10.8_r30039
+    var content = await _dd.getVersion('dev', '30039') as SvnVersionInfo;
+
+    expect(content.revision, 30039);
+    expect(content.version, new Version.parse('0.8.10-rev.8.30039'));
+    expect(content.date, new DateTime.utc(2013, 11, 7, 3, 48));
   });
 
   test('getLink', () async {
