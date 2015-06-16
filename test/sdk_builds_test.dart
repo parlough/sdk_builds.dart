@@ -37,24 +37,37 @@ main() async {
     expect(paths.length, greaterThanOrEqualTo(28));
   });
 
-  test('getVersionMap', () async {
-    var channel = 'stable';
-    var revision = '44672';
+  group('getVersion', () {
+    test('recent git build', () async {
+      var channel = 'dev';
+      var revision = '1.11.0-dev.5.2';
 
-    var content = await _dd.getVersion(channel, revision) as SvnVersionInfo;
+      var content = await _dd.getVersion(channel, revision) as GitVersionInfo;
 
-    expect(content.revision, 44672);
-    expect(content.version, new Version.parse('1.9.1'));
-    expect(content.date, new DateTime.utc(2015, 3, 25, 3, 47));
-  });
+      expect(content.ref, '23736d3630da614c655d0569e1ba5af2021b1c61');
+      expect(content.version, new Version.parse('1.11.0-dev.5.2'));
+      expect(content.date, new DateTime(2015, 6, 11));
+    });
 
-  test('getVersionMap - old revision', () async {
-    // dev/release/30039 - 0.8.10.8_r30039
-    var content = await _dd.getVersion('dev', '30039') as SvnVersionInfo;
+    test('recent svn build', () async {
+      var channel = 'stable';
+      var revision = '44672';
 
-    expect(content.revision, 30039);
-    expect(content.version, new Version.parse('0.8.10-rev.8.30039'));
-    expect(content.date, new DateTime.utc(2013, 11, 7, 3, 48));
+      var content = await _dd.getVersion(channel, revision) as SvnVersionInfo;
+
+      expect(content.revision, 44672);
+      expect(content.version, new Version.parse('1.9.1'));
+      expect(content.date, new DateTime.utc(2015, 3, 25, 3, 47));
+    });
+
+    test('old revision with old date format', () async {
+      // dev/release/30039 - 0.8.10.8_r30039
+      var content = await _dd.getVersion('dev', '30039') as SvnVersionInfo;
+
+      expect(content.revision, 30039);
+      expect(content.version, new Version.parse('0.8.10-rev.8.30039'));
+      expect(content.date, new DateTime.utc(2013, 11, 7, 3, 48));
+    });
   });
 
   test('getLink', () async {
