@@ -51,16 +51,6 @@ class DartDownloads {
     return Uri.parse(obj.mediaLink);
   }
 
-  Future<String> getHash256(
-      String channel, String revision, String download) async {
-    var media = await _api.objects.get(
-        _dartChannel, _revisionPath(channel, revision, ['$download.sha256sum']),
-        downloadOptions: storage.DownloadOptions.FullMedia);
-
-    var hashLine = await ASCII.decodeStream(media.stream);
-    return new RegExp('[0-9a-fA-F]*').stringMatch(hashLine);
-  }
-
   Future<List<VersionInfo>> getVersions(String channel) async {
     var versions = await getVersionPaths(channel).toList();
 
