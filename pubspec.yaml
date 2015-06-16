@@ -1,6 +1,6 @@
 name: sdk_builds
 description: Utilities for accessing builds of the Dart SDK.
-version: 0.1.0
+version: 0.1.1-dev
 author: Kevin Moore <kevmoo@google.com>
 homepage: https://github.com/kevmoo/sdk_builds.dart
 environment:
