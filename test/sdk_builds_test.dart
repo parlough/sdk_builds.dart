@@ -37,6 +37,12 @@ main() async {
     expect(paths.length, greaterThanOrEqualTo(28));
   });
 
+  test('getVersions', () async {
+    var versions = await _dd.getVersions('stable');
+
+    expect(versions.length, greaterThanOrEqualTo(27));
+  });
+
   group('getVersion', () {
     test('recent git build', () async {
       var channel = 'dev';
