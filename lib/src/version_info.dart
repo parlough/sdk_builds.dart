@@ -37,7 +37,7 @@ abstract class VersionInfo implements Comparable<VersionInfo> {
     var version = new Version.parse(jsonVersion);
 
     var revision = json['revision'];
-    var svnRevision = int.parse(revision, onError: (_) => null);
+    var svnRevision = int.tryParse(revision);
     if (svnRevision == null) {
       // assume git!
       assert(revision is String);

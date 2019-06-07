@@ -14,8 +14,11 @@ const _dartChannel = 'dart-archive';
 const _flavor = 'release';
 
 String _revisionPath(String channel, String revision,
-    [List<String> extra = const []]) => p.joinAll(
-        [['channels', channel, _flavor, revision], extra].expand(((e) => e)));
+        [List<String> extra = const []]) =>
+    p.joinAll([
+      ['channels', channel, _flavor, revision],
+      extra
+    ].expand(((e) => e)));
 
 class DartDownloads {
   final storage.StorageApi _api;
@@ -115,4 +118,4 @@ class DartDownloads {
   }
 }
 
-final _jsonAsciiDecoder = JSON.fuse(ASCII).decoder;
+final _jsonAsciiDecoder = json.fuse(ascii).decoder;
