@@ -2,3 +2,6 @@
 build/
 packages
 pubspec.lock
+.dart_tool
+.idea
+.packages
