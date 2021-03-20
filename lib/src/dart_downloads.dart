@@ -27,7 +27,7 @@ class DartDownloads {
   factory DartDownloads({http.Client? client}) =>
       DartDownloads._(client ?? http.Client());
 
-  Future<Uri> getDownloadLink(
+  Future<Uri> createDownloadLink(
       String channel, String revision, String path) async {
     final prefix = _revisionPath(channel, revision, [path]);
 
@@ -50,8 +50,8 @@ class DartDownloads {
     }
   }
 
-  Future<List<VersionInfo>> getVersions(String channel) async {
-    final versions = await getVersionPaths(channel)
+  Future<List<VersionInfo>> fetchVersions(String channel) async {
+    final versions = await fetchVersionPaths(channel)
         .where((event) => !event.contains('latest'))
         .toList();
 
@@ -61,7 +61,7 @@ class DartDownloads {
       try {
         final revisionString = p.basename(path);
 
-        final ver = await getVersion(channel, revisionString);
+        final ver = await fetchVersion(channel, revisionString);
 
         versionMaps.add(ver);
       } catch (e) {
@@ -75,7 +75,7 @@ class DartDownloads {
     return versionMaps;
   }
 
-  Stream<String> getVersionPaths(String channel) async* {
+  Stream<String> fetchVersionPaths(String channel) async* {
     final prefix = p.join('channels', channel, _flavor) + '/';
 
     String? nextToken;
@@ -97,8 +97,8 @@ class DartDownloads {
     } while (nextToken != null);
   }
 
-  Future<VersionInfo> getVersion(String channel, String revision) async {
-    final media = await _getFile(channel, revision, 'VERSION');
+  Future<VersionInfo> fetchVersion(String channel, String revision) async {
+    final media = await _fetchFile(channel, revision, 'VERSION');
 
     final json = await _jsonAsciiDecoder
         .bind(media.stream)
@@ -110,7 +110,7 @@ class DartDownloads {
 
   void close() => _client.close();
 
-  Future<storage.Media> _getFile(
+  Future<storage.Media> _fetchFile(
       String channel, String revision, String path) async {
     return await _api.objects.get(
         _dartChannel, _revisionPath(channel, revision, [path]),
